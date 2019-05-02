@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Fruit Counter</title>
+  <meta charset='utf-8'>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css" media="all">
+  <script src="{{ url_for('static', filename='js/index.js') }}">
+  </script>
+</head>
+
+<body>
+  <div class="contentarea">
+    <div class="banner">
+      <h1>
+        Fruit Counter
+      </h1>
+    </div>
+    <div id="camera">
+      <video id="video">Video stream not available.</video>
+      <img id="photo" alt="The screen capture will appear in this box.">
+
+    </div>
+    <canvas id="canvas">
+    </canvas>
+    <div>
+      <button id="takeBtn">Take photo</button>
+    </div>
+  </div>
+</body>
+
+</html>
