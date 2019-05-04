@@ -5,28 +5,27 @@
   <title>Fruit Counter</title>
   <meta charset='utf-8'>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css" media="all">
-  <script src="{{ url_for('static', filename='js/index.js') }}">
-  </script>
 </head>
 
 <body>
   <div class="contentarea">
     <div class="banner">
-      <h1>
-        Fruit Counter
-      </h1>
+      <h1>Fruit Counter</h1>
+      <h4 id="log">Logs</h4>
     </div>
     <div id="camera">
       <video id="video">Video stream not available.</video>
       <img id="photo" alt="The screen capture will appear in this box.">
-
     </div>
     <canvas id="canvas">
     </canvas>
     <div>
       <button id="takeBtn">Take photo</button>
+      
     </div>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js" type="text/javascript"></script>
+  <script src="{{ url_for('static', filename='js/index.js') }}" type="text/javascript"></script>
 </body>
 
 </html>
