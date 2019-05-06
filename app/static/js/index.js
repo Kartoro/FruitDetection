@@ -20,6 +20,8 @@
     var takeBtn = null;
     var isTake = true;
 
+    var uploadImage = null;
+
     function startup() {
         camera = document.getElementById('camera');
         log = document.getElementById('log');
@@ -30,8 +32,12 @@
         //output = document.getElementsByClassName('output');
         takeBtn = document.getElementById('takeBtn');
 
+        video.setAttribute('autoplay', '');
+        video.setAttribute('muted', '');
+        video.setAttribute('playsinline', '');
+
         navigator.mediaDevices.getUserMedia({
-                video: true,
+                video: {facingMode: {exact: 'environment'}},
                 audio: false
             })
             .then(function(stream) {
@@ -83,6 +89,18 @@
             ev.preventDefault();
         }, false);
 
+        upBtn.addEventListener('click', function(ev) {
+            upBtn.disabled = true;
+            if (uploadImage != null) {
+                log.innerHTML = "Uploading...";
+                upload(uploadImage);
+            } else {
+                log.innerHTML = "NO image";
+            }
+            upBtn.disabled = false;
+            ev.preventDefault();
+        }, false);
+
         clearphoto();
     }
 
@@ -119,10 +137,12 @@
             context.drawImage(video, 0, 0, width, height);
 
             var data = canvas.toDataURL('image/jpg');
+            console.log("IMG: " + data);
+            uploadImage = data;
             photo.setAttribute('src', data);
-            video.style.display = 'none';
             photo.style.zIndex = "99";
             photo.style.display = 'block';
+            video.style.display = 'none';
             takeBtn.innerHTML = 'Retake';
         } else {
             clearphoto();
@@ -130,9 +150,11 @@
     }
 
     function retake() {
+        uploadImage = null;
         video.style.display = 'block';
         photo.style.display = 'none';
         photo.style.zIndex = "-1";
+        clearphoto();
         takeBtn.innerHTML = 'Take photo';
     }
 

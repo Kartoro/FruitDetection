@@ -6,15 +6,18 @@ body {
     margin: 0;
 }
 
-.banner {
+#banner {
     width: auto;
     margin: auto;
 }
 
-#camera {
+#photoFrame {
     display: flex;
     position: relative;
-    /*height: 80vh;*/
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    min-height: 70vh;
 }
 
 .btn {
@@ -22,35 +25,19 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: center;
-}
-
-#video {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    border: 1px solid black;
-    /*box-shadow: 2px 2px 3px black;*/
-    width: 100%;
-    height: auto;
-    min-width: 0;
-    min-height: 0;
-    overflow: hidden;
-    z-index: 1;
+    margin-top: 30px;
 }
 
 #photo {
     display: none;
-    position: absolute;
-    top: 0px;
-    left: 0px;
     border: 1px solid black;
-    z-index: -1;
-    /*box-shadow: 2px 2px 3px black;
-  width: 600px;
-  height: 400px;*/
 }
 
 #canvas {
+    display: none;
+}
+
+#inputImage {
     display: none;
 }
 
@@ -59,18 +46,25 @@ body {
     position: relative;
     /*margin-left: auto;
     bottom: 32px;*/
-    margin-right: 20px;
     background-color: rgba(0, 150, 0, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.7);
     box-shadow: 0px 0px 1px 2px rgba(0, 0, 0, 0.2);
     font-size: 5vw;
-    height: 10vw;
+    height: 5vh;
     font-family: "Lucida Grande", "Arial", sans-serif;
     color: rgba(255, 255, 255, 1.0);
     z-index: 999;
 }
 
-.contentarea {
+#takeBtn {
+    margin-right: 20px;
+}
+
+#upBtn {
+    margin-left: 20px;
+}
+
+.content {
     display: flex;
     flex-direction: column;
     font-size: 16px;
