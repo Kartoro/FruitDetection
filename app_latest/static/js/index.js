@@ -42,36 +42,39 @@
     });
 
     function processImage(canvas) {
-        canvas.toBlob(function(blob) {
-            console.log("Processing image...");
-            console.log(URL.createObjectURL(blob));
-            return URL.createObjectURL(blob);
-        },
-        'image/jpeg', 0.95);
+        //var formData = new FormData();
+        return new Promise(function(resolve, reject) {
+            canvas.toBlob(function(blob) {
+                    console.log("Processing image...");
+                    resolve(blob);
+                },
+                'image/jpeg', 0.95);
+        });
     }
 
-    function sendFile(data) {
-        var urlData = processImage(data);
-        var formData = new FormData();
-
-        formData.append('imageData', urlData);
-
-        $.ajax({
-            type: 'POST',
-            url: '/upload',
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function(data) {
-                if (data.success) {
-                    console.log('Your file was successfully uploaded!');
-                } else {
-                    console.log('There was an error uploading your file!');
+    function sendFile(canvas) {
+        processImage(canvas).then(function(blob) {
+            var formData = new FormData();
+            formData.append('image', blob, 'pic.jpg');
+            return formData;
+        }).then(function(formSent) {
+            $.ajax({
+                type: 'POST',
+                url: '/upload',
+                data: formSent,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    if (data == "200") {
+                        console.log('Your file was successfully uploaded!');
+                    } else {
+                        console.log('!!! There was an error uploading your file!');
+                    }
+                },
+                error: function(data) {
+                    console.log(data);
                 }
-            },
-            error: function(data) {
-                console.log('There was an error uploading your file!');
-            }
+            });
         });
     }
 

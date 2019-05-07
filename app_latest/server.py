@@ -1,4 +1,5 @@
 from flask import Flask, request, render_template
+from werkzeug import secure_filename
 
 app = Flask(__name__, template_folder='html')
 
@@ -8,7 +9,17 @@ def home():
 
 @app.route('/upload', methods=['POST'])
 def parse_upload():
-    img = request.get()
+    if request.method == 'POST':
+        print(len(request.files))
+        if 'image' not in request.files:
+            print('No such file')
+            return '404'
+        else:
+            f = request.files['image']
+            f.save(secure_filename(f.filename))
+            print('file uploaded successfully')
+            return '200'
+            #request.files['imageData']
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, ssl_context='adhoc', debug=True)
