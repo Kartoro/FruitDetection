@@ -13,14 +13,14 @@
             var loadingImage = loadImage(
                 e.target.files[0],
                 function(img) {
-
                     photoFrame.appendChild(img);
                     console.log(img);
                 },
                 // options
                 {
-                    maxWidth: photoFrame.offsetWidth,
-                    maxHeight: 1000,
+                    //maxWidth: photoFrame.offsetWidth,
+                    maxWidth: 4000,
+                    maxHeight: 4000,
                     orientation: true,
                     canvas: true,
                     noRevoke: true
