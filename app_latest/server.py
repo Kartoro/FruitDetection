@@ -6,7 +6,7 @@ import numpy as np
 import os
 import six.moves.urllib as urllib
 import sys
-sys.path.append('/Users/ssn8023/Desktop/TensorFlow/models/research/object_detection')
+#sys.path.append('/Users/ssn8023/Desktop/TensorFlow/models/research/object_detection')
 import tarfile
 import tensorflow as tf
 import zipfile
@@ -18,12 +18,12 @@ from matplotlib import pyplot as plt
 from PIL import Image
 
 sys.path.append("..")
-from object_detection.utils import ops as utils_ops
+from utils import ops as utils_ops
 
-from object_detection.utils import label_map_util
-from object_detection.protos import string_int_label_map_pb2
+from utils import label_map_util
+from protos import string_int_label_map_pb2
 
-from object_detection.utils import visualization_utils as vis_util
+from utils import visualization_utils as vis_util
 
 
 app = Flask(__name__, template_folder='html')
@@ -123,18 +123,21 @@ def run_inference_for_single_image(image, graph):
 
 
 def model():
+    path = os.path.abspath(os.path.join(os.getcwd(), "../.."))
+    #print(path.split('/models')[0])
+
     MODEL_NAME = 'faster_rcnn_inception_v2_coco_2018_01_28'
     MODEL_FILE = MODEL_NAME + '.tar.gz'
     DOWNLOAD_BASE = 'http://download.tensorflow.org/models/object_detection/'
 
     # Path to frozen detection graph. This is the actual model that is used for the object detection.
-    PATH_TO_FROZEN_GRAPH = '/Users/ssn8023/Desktop/TensorFlow/workspace/training_demo/trained-inference-graphs/output_inference_graph_v1.pb/frozen_inference_graph.pb'
+    PATH_TO_FROZEN_GRAPH = path.split('/models')[0] + '/workspace/training_demo/trained-inference-graphs/output_inference_graph_v1.pb/frozen_inference_graph.pb'
 
     # List of the strings that is used to add correct label for each box.
-    PATH_TO_LABELS = '/Users/ssn8023/Desktop/TensorFlow/workspace/training_demo/annotations/label_map.pbtxt'
+    PATH_TO_LABELS = path.split('/models')[0] + '/workspace/training_demo/annotations/label_map.pbtxt'
 
-    tar_file = tarfile.open(
-        '/Users/ssn8023/Desktop/TensorFlow/workspace/training_demo/faster_rcnn_inception_v2_coco_2018_01_28.tar')
+    tar_file = tarfile.open(path.split('/models')[0]+
+        '/workspace/training_demo/faster_rcnn_inception_v2_coco_2018_01_28.tar')
     for file in tar_file.getmembers():
         file_name = os.path.basename(file.name)
         if 'frozen_inference_graph.pb' in file_name:
@@ -151,7 +154,7 @@ def model():
     category_index = label_map_util.create_category_index_from_labelmap(PATH_TO_LABELS, use_display_name=True)
 
     # PATH_TO_TEST_IMAGES_DIR = '/Users/ssn8023/Desktop/TensorFlow/workspace/training_demo/images/test'
-    PATH_TO_TEST_IMAGES_DIR = '/Users/ssn8023/PycharmProjects/COMP90055-FruitDetection/app_latest'
+    PATH_TO_TEST_IMAGES_DIR = path.split('/models')[0] + '/models/research/object_detection'
     # PATH_TO_TEST_IMAGES_DIR =
     # TEST_IMAGE_PATHS = [ os.path.join(PATH_TO_TEST_IMAGES_DIR, 'pic{}.jpg'.format(i)) for i in range(1, 9) ]
     TEST_IMAGE_PATHS = [os.path.join(PATH_TO_TEST_IMAGES_DIR, 'pic.jpg')]
@@ -171,7 +174,7 @@ def model():
         # Actual detection.
         output_dict = run_inference_for_single_image(image_np, detection_graph)
         # Visualization of the results of a detection.
-        vis_util.visualize_boxes_and_labels_on_image_array(
+        k = vis_util.visualize_boxes_and_labels_on_image_array(
             image_np,
             output_dict['detection_boxes'],
             output_dict['detection_classes'],
@@ -179,7 +182,10 @@ def model():
             category_index,
             instance_masks=output_dict.get('detection_masks'),
             use_normalized_coordinates=True,
-            line_thickness=8)
+            line_thickness=8,
+            skip_labels = True)
+
+        print(k)
         plt.figure(figsize=IMAGE_SIZE)
         plt.imshow(image_np)
         plt.savefig(fileName + '1.jpg')
