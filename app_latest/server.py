@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 from werkzeug.utils import secure_filename
 from PIL import Image
 
@@ -10,6 +10,7 @@ import sys
 import tarfile
 import tensorflow as tf
 import zipfile
+import base64
 
 from distutils.version import StrictVersion
 from collections import defaultdict
@@ -45,11 +46,17 @@ def parse_upload():
             f = request.files['image']
             f.save(secure_filename(f.filename))
             image = Image.open('pic.jpg')
-            cut(image, 3)
+            #cut(image, 3)
             print('file uploaded successfully')
-            model()
+            count = model()
             print('model processed successfully')
-            return '200'
+            res_dict = {}
+            with open('pic1.jpg', 'rb') as res_img:
+                res_dict['img'] = str(base64.b64encode(res_img.read()))
+                res_dict['code'] = 200
+                res_dict['count'] = count
+
+            return jsonify(res_dict)
 
 
 def cut(image, n):
@@ -123,21 +130,20 @@ def run_inference_for_single_image(image, graph):
 
 
 def model():
-    path = os.path.abspath(os.path.join(os.getcwd(), "../.."))
+    path = os.path.abspath(os.path.join(os.getcwd(), "../../.."))
     #print(path.split('/models')[0])
-
+    app.logger.info('!!!!! %s', path)
     MODEL_NAME = 'faster_rcnn_inception_v2_coco_2018_01_28'
     MODEL_FILE = MODEL_NAME + '.tar.gz'
-    DOWNLOAD_BASE = 'http://download.tensorflow.org/models/object_detection/'
+    #DOWNLOAD_BASE = 'http://download.tensorflow.org/models/object_detection/'
 
     # Path to frozen detection graph. This is the actual model that is used for the object detection.
-    PATH_TO_FROZEN_GRAPH = path.split('/models')[0] + '/workspace/training_demo/trained-inference-graphs/output_inference_graph_v1.pb/frozen_inference_graph.pb'
+    PATH_TO_FROZEN_GRAPH = os.path.join(path, 'workspace/training_demo/trained-inference-graphs/output_inference_graph_v1.pb/frozen_inference_graph.pb'.replace('/', os.sep))
 
     # List of the strings that is used to add correct label for each box.
-    PATH_TO_LABELS = path.split('/models')[0] + '/workspace/training_demo/annotations/label_map.pbtxt'
+    PATH_TO_LABELS = os.path.join(path, 'workspace/training_demo/annotations/label_map.pbtxt'.replace('/', os.sep))
 
-    tar_file = tarfile.open(path.split('/models')[0]+
-        '/workspace/training_demo/faster_rcnn_inception_v2_coco_2018_01_28.tar')
+    tar_file = tarfile.open(os.path.join(path, 'workspace/training_demo/faster_rcnn_inception_v2_coco_2018_01_28.tar.gz'.replace('/', os.sep)))
     for file in tar_file.getmembers():
         file_name = os.path.basename(file.name)
         if 'frozen_inference_graph.pb' in file_name:
@@ -154,7 +160,7 @@ def model():
     category_index = label_map_util.create_category_index_from_labelmap(PATH_TO_LABELS, use_display_name=True)
 
     # PATH_TO_TEST_IMAGES_DIR = '/Users/ssn8023/Desktop/TensorFlow/workspace/training_demo/images/test'
-    PATH_TO_TEST_IMAGES_DIR = path.split('/models')[0] + '/models/research/object_detection'
+    PATH_TO_TEST_IMAGES_DIR = os.path.join(path, 'models/research/object_detection'.replace('/', os.sep))
     # PATH_TO_TEST_IMAGES_DIR =
     # TEST_IMAGE_PATHS = [ os.path.join(PATH_TO_TEST_IMAGES_DIR, 'pic{}.jpg'.format(i)) for i in range(1, 9) ]
     TEST_IMAGE_PATHS = [os.path.join(PATH_TO_TEST_IMAGES_DIR, 'pic.jpg')]
@@ -162,7 +168,7 @@ def model():
     # Size, in inches, of the output images.
     IMAGE_SIZE = (120, 80)
 
-
+    total_count = 0
     for image_path in TEST_IMAGE_PATHS:
         image = Image.open(image_path)
         fileName = os.path.basename(image_path).split('.')[0]
@@ -186,9 +192,13 @@ def model():
             skip_labels = True)
 
         print(k)
+        total_count += k
         plt.figure(figsize=IMAGE_SIZE)
+        fig = plt.gcf()
+        fig.set_size_inches(12, 9)
         plt.imshow(image_np)
-        plt.savefig(fileName + '1.jpg')
+        plt.savefig(fileName + '1.jpg', bbox_inches='tight')
+    return total_count
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

@@ -19,8 +19,8 @@
                 // options
                 {
                     //maxWidth: photoFrame.offsetWidth,
-                    maxWidth: 4000,
-                    maxHeight: 4000,
+                    maxWidth: 2000,
+                    maxHeight: 2000,
                     orientation: true,
                     canvas: true,
                     noRevoke: true
@@ -64,15 +64,21 @@
                 data: formSent,
                 contentType: false,
                 processData: false,
-                success: function(data) {
-                    if (data == "200") {
+                success: function(res) {
+                    //res = JSON.parse(data);
+                    if (res.code == 200) {
                         console.log('Your file was successfully uploaded!');
+                        $("#photoFrame").append("<img id='resImg'/><p id='count'></p>");
+                        $("canvas").hide();
+                        $("#resImg").attr("src", 'data:image/jpeg;base64,'+res.img.replace(/^b'|'$/g,''));
+                        $("#count").text("count = " + res.count);
                     } else {
                         console.log('!!! There was an error uploading your file!');
                     }
                 },
-                error: function(data) {
-                    console.log(data);
+                error: function(res) {
+                    //res = JSON.parse(data);
+                    console.log(res.code);
                 }
             });
         });

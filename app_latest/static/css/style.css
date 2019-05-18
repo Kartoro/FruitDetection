@@ -14,6 +14,7 @@ body {
 #photoFrame {
     display: flex;
     position: relative;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     align-content: center;
@@ -36,6 +37,14 @@ body {
 canvas {
     max-width: 100vw;
     max-height: 70vh;
+}
+
+#resImg {
+    max-width: 100vw;
+}
+
+#count {
+    font-size: 5vw;
 }
 
 #inputImage {
