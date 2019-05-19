@@ -6,7 +6,6 @@ import numpy as np
 import os
 import six.moves.urllib as urllib
 import sys
-#sys.path.append('/Users/ssn8023/Desktop/TensorFlow/models/research/object_detection')
 import tarfile
 import tensorflow as tf
 import zipfile
@@ -46,7 +45,7 @@ def parse_upload():
             f = request.files['image']
             f.save(secure_filename(f.filename))
             image = Image.open('pic.jpg')
-            #cut(image, 3)
+            #cut(image, 2)
             print('file uploaded successfully')
             count = model()
             print('model processed successfully')
@@ -159,9 +158,7 @@ def model():
 
     category_index = label_map_util.create_category_index_from_labelmap(PATH_TO_LABELS, use_display_name=True)
 
-    # PATH_TO_TEST_IMAGES_DIR = '/Users/ssn8023/Desktop/TensorFlow/workspace/training_demo/images/test'
     PATH_TO_TEST_IMAGES_DIR = os.path.join(path, 'models/research/object_detection'.replace('/', os.sep))
-    # PATH_TO_TEST_IMAGES_DIR =
     # TEST_IMAGE_PATHS = [ os.path.join(PATH_TO_TEST_IMAGES_DIR, 'pic{}.jpg'.format(i)) for i in range(1, 9) ]
     TEST_IMAGE_PATHS = [os.path.join(PATH_TO_TEST_IMAGES_DIR, 'pic.jpg')]
 
