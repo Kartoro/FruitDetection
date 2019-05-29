@@ -87,7 +87,7 @@ def run_inference_for_single_image(image, graph):
       ops = tf.get_default_graph().get_operations()
       all_tensor_names = {output.name for op in ops for output in op.outputs}
       tensor_dict = {}
-      print('aaaaaaa')
+      print('TensorFlow running...')
       for key in [
           'num_detections', 'detection_boxes', 'detection_scores',
           'detection_classes', 'detection_masks'
@@ -142,7 +142,7 @@ def model():
     # List of the strings that is used to add correct label for each box.
     PATH_TO_LABELS = os.path.join(path, 'workspace/training_demo/annotations/label_map.pbtxt'.replace('/', os.sep))
 
-    tar_file = tarfile.open(os.path.join(path, 'workspace/training_demo/faster_rcnn_inception_v2_coco_2018_01_28.tar.gz'.replace('/', os.sep)))
+    tar_file = tarfile.open(os.path.join(path, 'workspace/training_demo/faster_rcnn_inception_v2_coco_2018_01_28.tar'.replace('/', os.sep)))
     for file in tar_file.getmembers():
         file_name = os.path.basename(file.name)
         if 'frozen_inference_graph.pb' in file_name:
@@ -161,6 +161,7 @@ def model():
     PATH_TO_TEST_IMAGES_DIR = os.path.join(path, 'models/research/object_detection'.replace('/', os.sep))
     # TEST_IMAGE_PATHS = [ os.path.join(PATH_TO_TEST_IMAGES_DIR, 'pic{}.jpg'.format(i)) for i in range(1, 9) ]
     TEST_IMAGE_PATHS = [os.path.join(PATH_TO_TEST_IMAGES_DIR, 'pic.jpg')]
+
 
     # Size, in inches, of the output images.
     IMAGE_SIZE = (120, 80)
@@ -185,8 +186,11 @@ def model():
             category_index,
             instance_masks=output_dict.get('detection_masks'),
             use_normalized_coordinates=True,
-            line_thickness=8,
-            skip_labels = True)
+            max_boxes_to_draw = None,
+            line_thickness = 8,
+            min_score_thresh =.6,
+            agnostic_mode = True,
+            skip_labels = False)
 
         print(k)
         total_count += k
