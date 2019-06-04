@@ -15,7 +15,26 @@ body {
     font-size: 6vw;
 }
 
+#initOver {
+    background-color: grey;
+    opacity: 0.6;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
+#initOver > h3 {
+    font-size: 5vw;
+    color: white;
+}
 
 #photoFrame {
     display: flex;
@@ -82,6 +101,16 @@ canvas {
     font-size: 10vw;
 }
 
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
 #takeBtn {
     margin-right: 20vw;
     background-color: #e65100;
@@ -105,9 +134,10 @@ canvas {
 .content {
     position: absolute;
 	top: 0;
-	bottom: 5vh;
+	bottom: 0;
 	left: 0;
 	right: 0;
+    padding-bottom: 5vh;
 	margin: auto;
     display: flex;
     flex-direction: column;

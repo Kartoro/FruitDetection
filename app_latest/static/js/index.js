@@ -8,6 +8,7 @@
         var inputImage = document.querySelector("#inputImage");
         inputImage.click();
         inputImage.onchange = function(e) {
+            $("#initOver > h3").hide();
             while (photoFrame.firstChild) {
                 photoFrame.removeChild(photoFrame.firstChild);
             }
