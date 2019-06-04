@@ -2,6 +2,7 @@
     var dataUpload;
     var takeBtn = document.querySelector("#takeBtn");
     var photoFrame = document.querySelector("#photoFrame");
+    $("#loading").hide();
     takeBtn.addEventListener("click", function() {
         dataUpload = null;
         var inputImage = document.querySelector("#inputImage");
@@ -58,6 +59,7 @@
             formData.append('image', blob, 'pic.jpg');
             return formData;
         }).then(function(formSent) {
+            $("#loading").fadeIn();
             $.ajax({
                 type: 'POST',
                 url: '/upload',
@@ -68,6 +70,7 @@
                     //res = JSON.parse(data);
                     if (res.code == 200) {
                         console.log('Your file was successfully uploaded!');
+                        $("#loading").fadeOut();
                         $("#photoFrame").append("<img id='resImg'/><p id='count'></p>");
                         $("canvas").hide();
                         $("#resImg").attr("src", 'data:image/jpeg;base64,'+res.img.replace(/^b'|'$/g,''));
