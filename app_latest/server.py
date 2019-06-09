@@ -10,6 +10,7 @@ import tarfile
 import tensorflow as tf
 import zipfile
 import base64
+import datetime
 
 from distutils.version import StrictVersion
 from collections import defaultdict
@@ -47,7 +48,10 @@ def parse_upload():
             image = Image.open('pic.jpg')
             #cut(image, 2)
             print('file uploaded successfully')
+            start = datetime.datetime.now()
             count = model()
+            end = datetime.datetime.now()
+            print(end - start)
             print('model processed successfully')
             res_dict = {}
             with open('pic1.jpg', 'rb') as res_img:
@@ -192,11 +196,11 @@ def model():
             agnostic_mode = True,
             skip_labels = False)
 
-        print(k)
+        print('Count = %d'%k)
         total_count += k
         plt.figure(figsize=IMAGE_SIZE)
         fig = plt.gcf()
-        fig.set_size_inches(12, 9)
+        fig.set_size_inches(24, 18)
         plt.imshow(image_np)
         plt.savefig(fileName + '1.jpg', bbox_inches='tight')
     return total_count

@@ -711,9 +711,10 @@ def visualize_boxes_and_labels_on_image_array(
             display_str = '{}: {}%'.format(display_str, int(100*scores[i]))
         box_to_display_str_map[box].append(display_str)
         if agnostic_mode:
-          box_to_color_map[box] = 'DarkOrange'
-        else:
           box_to_color_map[box] = 'red'
+        else:
+          box_to_color_map[box] = STANDARD_COLORS[
+              classes[i] % len(STANDARD_COLORS)]
 
 
   # Draw all boxes onto image.
