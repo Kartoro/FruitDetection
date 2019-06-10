@@ -1,14 +1,12 @@
 (function() {
-    var dataUpload;
     var takeBtn = document.querySelector("#takeBtn");
     var photoFrame = document.querySelector("#photoFrame");
     $("#loading").hide();
     takeBtn.addEventListener("click", function() {
-        dataUpload = null;
         var inputImage = document.querySelector("#inputImage");
         inputImage.click();
         inputImage.onchange = function(e) {
-            $("#initOver > h3").hide();
+            $("#initOver>h3").hide();
             while (photoFrame.firstChild) {
                 photoFrame.removeChild(photoFrame.firstChild);
             }
@@ -16,11 +14,9 @@
                 e.target.files[0],
                 function(img) {
                     photoFrame.appendChild(img);
-                    console.log(img);
                 },
                 // options
                 {
-                    //maxWidth: photoFrame.offsetWidth,
                     maxWidth: 2000,
                     maxHeight: 2000,
                     orientation: true,
@@ -28,10 +24,8 @@
                     noRevoke: true
                 }
             );
-            //loadingImage.onload = loadingImage.onerror = null;
             e.preventDefault();
         };
-
     }, false);
 
     document.querySelector("#upBtn").addEventListener("click", function() {
@@ -44,7 +38,6 @@
     });
 
     function processImage(canvas) {
-        //var formData = new FormData();
         return new Promise(function(resolve, reject) {
             canvas.toBlob(function(blob) {
                     console.log("Processing image...");
@@ -68,21 +61,21 @@
                 contentType: false,
                 processData: false,
                 success: function(res) {
-                    //res = JSON.parse(data);
                     if (res.code == 200) {
-                        console.log('Your file was successfully uploaded!');
+                        console.log('Your file was successfully processed!');
                         $("#loading").fadeOut();
                         $("#photoFrame").append("<img id='resImg'/><p id='count'></p>");
                         $("canvas").hide();
-                        $("#resImg").attr("src", 'data:image/jpeg;base64,'+res.img.replace(/^b'|'$/g,''));
+                        $("#resImg").attr("src", 'data:image/jpeg;base64,' + res.img.replace(/^b'|'$/g, ''));
                         $("#count").text("count = " + res.count);
                     } else {
-                        console.log('!!! There was an error uploading your file!');
+                        $("#loading").fadeOut();
+                        console.log(res.code + " - There was an error uploading your file!");
                     }
                 },
                 error: function(res) {
-                    //res = JSON.parse(data);
-                    console.log(res.code);
+                    $("#loading").fadeOut();
+                    console.log(res.code + " - Error!");
                 }
             });
         });
