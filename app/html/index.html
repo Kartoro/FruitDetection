@@ -1,35 +1,37 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 
 <head>
     <title>Fruit Counter</title>
     <meta charset='utf-8'>
-    <!--
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    -->
+    <link rel="shortcut icon" href="#">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css" media="all">
 </head>
 
 <body>
-    <div class="contentarea">
-        <div class="banner">
-            <h1>Fruit Counter</h1>
-            <h4 id="log">Logs</h4>
+    <div class="content">
+        <div id="banner">
+            <h1 class="noselect">Fruit Counter</h1>
         </div>
-        <div id="camera">
-            <video id="video">Video stream not available.</video>
-            <img id="photo" alt="The screen capture will appear in this box.">
+        <div id="initOver">
+            <h3 class="noselect">Take a picture!</h3>
         </div>
-        <canvas id="canvas">
-        </canvas>
+        <div id="loading">
+            <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+            <p>Loading...</p>
+        </div>
+        <div id="photoFrame">
+        </div>
         <div class="btn">
-            <button id="takeBtn">Take photo</button>
-            <input type="file" accept="image/*" />
-            <button id="upBtn">Upload</button>
+            <input id="inputImage" type="file" accept="image/*" />
+            <div id="takeBtn"><i class="material-icons noselect">camera</i></div>
+            <div id="upBtn"><i class="material-icons noselect">cloud_upload</i></div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/blueimp-load-image@2.22.0/js/load-image.all.min.js" type="text/javascript"></script>
     <script src="{{ url_for('static', filename='js/index.js') }}" type="text/javascript"></script>
 </body>
 
