@@ -13,7 +13,7 @@ To run this app, please make sure your environment has the following components 
   - TensorFlow 1.13.1+
 
 ### Installation
-Clone TensorFlow models library to your local project directory.
+Clone [TensorFlow models](https://github.com/tensorflow/models) library to your local project directory.
 
 ```
 YOUR_PROJECT_DIR
