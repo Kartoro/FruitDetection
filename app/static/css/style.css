@@ -82,11 +82,6 @@ canvas {
 #takeBtn, #upBtn {
     display: flex;
     position: relative;
-    /*margin-left: auto;
-    bottom: 10px;
-    background-color: rgba(0, 150, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.7);
-    box-shadow: 0px 0px 1px 2px rgba(0, 0, 0, 0.2);*/
     width: auto;
     height: auto;
     box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.3);
@@ -103,18 +98,11 @@ canvas {
 
 .noselect {
     -webkit-touch-callout: none;
-    /* iOS Safari */
     -webkit-user-select: none;
-    /* Safari */
     -khtml-user-select: none;
-    /* Konqueror HTML */
     -moz-user-select: none;
-    /* Firefox */
     -ms-user-select: none;
-    /* Internet Explorer/Edge */
     user-select: none;
-    /* Non-prefixed version, currently
-                                  supported by Chrome and Opera */
 }
 
 #takeBtn {
@@ -179,13 +167,12 @@ canvas {
     color: white;
 }
 
+/* Loading ring from https://loading.io/css/ */
 .lds-ring {
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
-    /*width: 64px;
-  height: 64px;*/
     width: 15vw;
     height: 15vw;
 }
@@ -194,8 +181,6 @@ canvas {
     box-sizing: border-box;
     display: block;
     position: absolute;
-    /*width: 51px;
-  height: 51px;*/
     width: 10vw;
     height: 10vw;
     margin: 6px;
@@ -226,6 +211,7 @@ canvas {
         transform: rotate(360deg);
     }
 }
+/* Loading ring end */
 
 @media only screen and (min-width: 1000px) {
     #banner>h1 {
